@@ -1,0 +1,13 @@
+name: 'Pull Request Manager'
+description: 'GitHub Pull Request Manager'
+author: 'milldr'
+branding:
+  icon: 'arrow-right-circle'
+  color: 'red'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checking for dependent PRs
+      shell: bash
+      run: |
+        echo "hello world"
