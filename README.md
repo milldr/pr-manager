@@ -1,6 +1,7 @@
-# `pr-manager`
-
-![logo](./docs/logo.png)
+<p align="center">
+  <img src="docs/logo.png" alt="logo" width="200"/>
+  <h3 align="center">PR Manager</h3>
+</p>
 
 This GitHub Action is intended to manage and orchestrate GitHub Pull Requests.
 
