@@ -25,19 +25,20 @@ runs:
         node-version: 20
 
     - name: Install octokit
+      shell: bash
       run: |
         npm install @octokit/action
 
     - name: Fetch all open PR comments 
       id: fetch
+      shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
-      shell: bash
       run: node src/fetch-comments.js
 
     - name: Checking for dependent PRs
-      shell: bash
       id: dependencies
+      shell: bash
       run: |
         echo "${steps.fetch.outputs.comment-id}"
         echo "blocked-by=\"pr-1\"" > $GITHUB_OUTPUT
