@@ -1,4 +1,6 @@
-# WIP - `pr-manager`
+# `pr-manager`
+
+[logo](./docs/logo.png)
 
 This GitHub Action is intended to manage and orchestrate GitHub Pull Requests.
 
