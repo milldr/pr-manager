@@ -13,10 +13,17 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Fetch all open PR comments 
+      id: fetch
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+      run: node src/fetch-comments.js
+
     - name: Checking for dependent PRs
       shell: bash
       id: dependencies
       run: |
+        echo "${steps.fetch.outputs.comment-id}"
         echo "blocked-by=\"pr-1\"" > $GITHUB_OUTPUT
 
     - name: Post or update comment
@@ -32,3 +39,5 @@ runs:
           - Created by [milldr/pr-manager][1]
 
           [1]: https://github.com/milldr/pr-manager
+
+          <!-- DO NOT REMOVE - [managed by milldr/pr-manager] -->
