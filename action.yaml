@@ -17,6 +17,7 @@ runs:
     - name: Post or update comment
       uses: peter-evans/create-or-update-comment@v4
       with:
+        issue-number: ${{ github.event.pull_request.number }}
         body: |
           Dependent Issues
           - ${{ steps.dependencies.outputs.blocked-by }}
