@@ -10,16 +10,19 @@ runs:
   steps:
     - name: Checking for dependent PRs
       shell: bash
+      id: dependencies
       run: |
-        echo "hello world"
+        echo "blocked-by=\"pr-1\"" > $GITHUB_OUTPUT
 
     - name: Post or update comment
       uses: peter-evans/create-or-update-comment@v4
       with:
         comment-id: 1
         body: |
-          This is a multi-line test comment
-          - With GitHub **Markdown** :sparkles:
+          Dependent Issues
+          - ${{ steps.dependencies.outputs.blocked-by }}
+
+          References
           - Created by [milldr/pr-manager][1]
 
           [1]: https://github.com/milldr/pr-manager
