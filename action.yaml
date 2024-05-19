@@ -17,7 +17,6 @@ runs:
     - name: Post or update comment
       uses: peter-evans/create-or-update-comment@v4
       with:
-        comment-id: 1
         body: |
           Dependent Issues
           - ${{ steps.dependencies.outputs.blocked-by }}
