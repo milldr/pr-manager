@@ -5,6 +5,11 @@ branding:
   icon: 'arrow-right-circle'
   color: 'red'
 
+inputs:
+  token:
+    description: "A GitHub token with permission to comment on PRs"
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -16,6 +21,8 @@ runs:
 
     - name: Post or update comment
       uses: peter-evans/create-or-update-comment@v4
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
       with:
         issue-number: ${{ github.event.pull_request.number }}
         body: |

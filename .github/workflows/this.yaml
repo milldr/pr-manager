@@ -22,5 +22,5 @@ jobs:
 
       - name: Run this action
         uses: ./
-        env:
-          GITHUB_TOKEN: ${{ steps.github-app.outputs.token }}
+        with:
+          token: ${{ steps.github-app.outputs.token }}
