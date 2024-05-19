@@ -13,6 +13,21 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Checkout this action
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          src/fetch-comments.js
+        sparse-checkout-cone-mode: false
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install octokit
+      run: |
+        npm install @octokit/action
+
     - name: Fetch all open PR comments 
       id: fetch
       env:
