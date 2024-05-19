@@ -17,6 +17,7 @@ runs:
       id: fetch
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
+      shell: bash
       run: node src/fetch-comments.js
 
     - name: Checking for dependent PRs
