@@ -21,9 +21,8 @@ runs:
 
     - name: Post or update comment
       uses: peter-evans/create-or-update-comment@v4
-      env:
-        GITHUB_TOKEN: ${{ inputs.token }}
       with:
+        token: ${{ inputs.token }}
         issue-number: ${{ github.event.pull_request.number }}
         body: |
           Dependent Issues
