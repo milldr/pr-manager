@@ -1,19 +1,28 @@
-# `pr-manager`
+<p align="center">
+  <img src="docs/logo.png" alt="logo" width="200"/>
+  <h3 align="center">PR Manager</h3>
+</p>
+
+## About
+
+_work in progress, May 2024. Star if you're interested, and I'll finish this!_
 
 This GitHub Action is intended to manage and orchestrate GitHub Pull Requests.
 
 - _Block a PR from merging until another PR is merged_
 - _Automatically merge a PR when all dependencies are resolved_
 
-## The Idea - KISS (keep it simple stupid)
+### The Idea - KISS (keep it simple stupid)
 
 Best practice in code changes is to keep Pull Requests simple. No one likes to review giant PRs.
 
-However, we also don't like waiting on someone else to approve or review our PRs! Developers should be able to create and submit follow up PRs as fast as they can without waiting on the first PR to be merged. Time is wasted manually orchestrating PR merge order and dependencies, when it's really not a complex task.
+However, we also don't like waiting on someone else to approve or review our PRs! Developers should be able to create
+and submit follow up PRs as fast as they can without waiting on the first PR to be merged. Time is wasted manually
+orchestrating PR merge order and dependencies, when it's really not a complex task.
 
 Why not automate it.
 
-## Workflow
+### Workflow
 
 Developer Workflow:
 
@@ -26,5 +35,3 @@ Reviewer Workflow:
 1. Reviewer takes their time to review PR 1. PRs are small and easier understandable
 2. Reviewer approves PR 1, PR 1 merges, PR 2 is updated automatically, workflows retriggered
 3. Repeat
-
-

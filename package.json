@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@octokit/action": "^7.0.0",
+    "@octokit/rest": "^20.1.1"
+  }
+}

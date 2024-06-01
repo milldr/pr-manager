@@ -1,13 +1,85 @@
 name: 'Pull Request Manager'
 description: 'GitHub Pull Request Manager'
-author: 'milldr'
+author: 'Daniel Miller'
 branding:
   icon: 'arrow-right-circle'
   color: 'red'
+
+inputs:
+  token:
+    description: "A GitHub token with permission to comment on PRs"
+    required: true
+  commentTag:
+    description: "The tag used to identifier the comment that manages this action"
+    default: "DO NOT REMOVE - [managed by milldr/pr-manager]"
+
 runs:
   using: 'composite'
   steps:
-    - name: Checking for dependent PRs
-      shell: bash
-      run: |
-        echo "hello world"
+    - name: Checkout this action
+      uses: actions/checkout@v4
+
+    #- uses: actions/setup-node@v4
+    #  with:
+    #    node-version: 20
+
+    #- name: Install octokit
+    #  shell: bash
+    #  run: |
+    #    npm install @octokit/action
+
+    #- name: Fetch comment for this action 
+    #  id: fetch
+    #  shell: bash
+    #  env:
+    #    GITHUB_TOKEN: ${{ inputs.token }}
+    #    COMMENT_TAG: ${{ inputs.commentTag }}
+    #  run: node src/fetch-comment.mjs
+    
+    - name: Find Comment
+      uses: peter-evans/find-comment@v3
+      id: fetch-comment
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: "${{ github.actor }}[bot]"
+        body-includes: ${{ inputs.commentTag }} 
+
+    - name: Create comment
+      if: steps.fetch-comment.outputs.comment-id == ''
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        token: ${{ inputs.token }}
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-id: ${{ steps.fetch-comment.outputs.comment-id }}
+        reactions: rocket
+        body: |
+          Dependent Issues
+          - ${{ steps.dependencies.outputs.blocked-by }}
+
+          References
+          - Created by [milldr/pr-manager][1]
+
+          [1]: https://github.com/milldr/pr-manager
+
+          <!-- ${{ inputs.commentTag }} -->
+
+    - name: Post or update comment
+      uses: peter-evans/create-or-update-comment@v4
+      if: steps.fetch-comment.outputs.comment-id != ''
+      with:
+        token: ${{ inputs.token }}
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-id: ${{ steps.fetch-comment.outputs.comment-id }}
+        reactions: hooray
+        body: |
+          UPDATED
+
+          Dependent Issues
+          - ${{ steps.dependencies.outputs.blocked-by }}
+
+          References
+          - Created by [milldr/pr-manager][1]
+
+          [1]: https://github.com/milldr/pr-manager
+
+          <!-- ${{ inputs.commentTag }} -->
