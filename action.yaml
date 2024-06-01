@@ -35,13 +35,18 @@ runs:
     #    GITHUB_TOKEN: ${{ inputs.token }}
     #    COMMENT_TAG: ${{ inputs.commentTag }}
     #  run: node src/fetch-comment.mjs
+    
+    - name: Test
+      shell: bash
+      run: |
+        echo ${{ github.actor }}
 
     - name: Find Comment
       uses: peter-evans/find-comment@v3
       id: fetch_comment
       with:
         issue-number: ${{ github.event.pull_request.number }}
-        comment-author: ${{ github.actor }}
+        comment-author: "${{ github.actor }}[bot]"
         body-includes: ${{ inputs.commentTag }} 
 
     - name: Create comment
@@ -72,6 +77,8 @@ runs:
         comment-id: ${{ steps.fetch_comment.outputs.commentId }}
         reactions: hooray
         body: |
+          UPDATED
+
           Dependent Issues
           - ${{ steps.dependencies.outputs.blocked-by }}
 
