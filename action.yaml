@@ -49,6 +49,7 @@ runs:
       uses: peter-evans/create-or-update-comment@v4
       with:
         token: ${{ inputs.token }}
+        issue-number: ${{ github.event.pull_request.number }}
         comment-id: ${{ steps.fetch_comment.outputs.commentId }}
         reactions: rocket
         body: |
@@ -67,6 +68,7 @@ runs:
       if: steps.fetch_comment.outputs.comment-id != ''
       with:
         token: ${{ inputs.token }}
+        issue-number: ${{ github.event.pull_request.number }}
         comment-id: ${{ steps.fetch_comment.outputs.commentId }}
         reactions: hooray
         body: |
