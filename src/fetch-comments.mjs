@@ -11,4 +11,4 @@ const result = await octokit.request('GET /repos/{owner}/{repo}/issues/comments'
   }
 })
 
-console.log("PR Comments: %s", result.data)
+console.log(JSON.stringify(result.data, null, 4));
