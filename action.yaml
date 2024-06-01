@@ -9,6 +9,9 @@ inputs:
   token:
     description: "A GitHub token with permission to comment on PRs"
     required: true
+  commentTag:
+    description: "The tag used to identifier the comment that manages this action"
+    default: "DO NOT REMOVE - [managed by milldr/pr-manager]"
 
 runs:
   using: 'composite'
@@ -16,34 +19,38 @@ runs:
     - name: Checkout this action
       uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
+    #- uses: actions/setup-node@v4
+    #  with:
+    #    node-version: 20
+
+    #- name: Install octokit
+    #  shell: bash
+    #  run: |
+    #    npm install @octokit/action
+
+    #- name: Fetch comment for this action 
+    #  id: fetch
+    #  shell: bash
+    #  env:
+    #    GITHUB_TOKEN: ${{ inputs.token }}
+    #    COMMENT_TAG: ${{ inputs.commentTag }}
+    #  run: node src/fetch-comment.mjs
+
+    - name: Find Comment
+      uses: peter-evans/find-comment@v3
+      id: fetch_comment
       with:
-        node-version: 20
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: ${{ github.actor }}
+        body-includes: ${{ inputs.commentTag }} 
 
-    - name: Install octokit
-      shell: bash
-      run: |
-        npm install @octokit/action
-
-    - name: Fetch all open PR comments 
-      id: fetch
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ inputs.token }}
-      run: node src/fetch-comments.mjs
-
-    - name: Checking for dependent PRs
-      id: dependencies
-      shell: bash
-      run: |
-        echo "${steps.fetch.outputs.comment-id}"
-        echo "blocked-by=\"pr-1\"" > $GITHUB_OUTPUT
-
-    - name: Post or update comment
+    - name: Create comment
+      if: steps.fc.outputs.comment-id == ''
       uses: peter-evans/create-or-update-comment@v4
       with:
         token: ${{ inputs.token }}
-        issue-number: ${{ github.event.pull_request.number }}
+        comment-id: ${{ steps.fetch.outputs.commentId }}
+        reactions: rocket
         body: |
           Dependent Issues
           - ${{ steps.dependencies.outputs.blocked-by }}
@@ -53,4 +60,22 @@ runs:
 
           [1]: https://github.com/milldr/pr-manager
 
-          <!-- DO NOT REMOVE - [managed by milldr/pr-manager] -->
+          <!-- ${{ inputs.commentTag }} -->
+
+    - name: Post or update comment
+      uses: peter-evans/create-or-update-comment@v4
+      if: steps.fetch_comment.outputs.comment-id != ''
+      with:
+        token: ${{ inputs.token }}
+        comment-id: ${{ steps.fetch.outputs.commentId }}
+        reactions: hooray
+        body: |
+          Dependent Issues
+          - ${{ steps.dependencies.outputs.blocked-by }}
+
+          References
+          - Created by [milldr/pr-manager][1]
+
+          [1]: https://github.com/milldr/pr-manager
+
+          <!-- ${{ inputs.commentTag }} -->
