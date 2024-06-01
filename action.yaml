@@ -30,7 +30,7 @@ runs:
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
-      run: node src/fetch-comments.js
+      run: node src/fetch-comments.mjs
 
     - name: Checking for dependent PRs
       id: dependencies
