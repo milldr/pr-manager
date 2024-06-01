@@ -3,7 +3,7 @@ import { Octokit } from "@octokit/action";
 const octokit = new Octokit()
 const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/")
 
-const { data } = await octokit.request('GET /repos/{owner}/{repo}/issues/comments', {
+const result = await octokit.request('GET /repos/{owner}/{repo}/issues/comments', {
   owner,
   repo,
   headers: {
@@ -11,4 +11,4 @@ const { data } = await octokit.request('GET /repos/{owner}/{repo}/issues/comment
   }
 })
 
-console.log("PR Comments: %s", data)
+console.log("PR Comments: %s", result.data)
