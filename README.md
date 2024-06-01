@@ -16,7 +16,9 @@ This GitHub Action is intended to manage and orchestrate GitHub Pull Requests.
 
 Best practice in code changes is to keep Pull Requests simple. No one likes to review giant PRs.
 
-However, we also don't like waiting on someone else to approve or review our PRs! Developers should be able to create and submit follow up PRs as fast as they can without waiting on the first PR to be merged. Time is wasted manually orchestrating PR merge order and dependencies, when it's really not a complex task.
+However, we also don't like waiting on someone else to approve or review our PRs! Developers should be able to create
+and submit follow up PRs as fast as they can without waiting on the first PR to be merged. Time is wasted manually
+orchestrating PR merge order and dependencies, when it's really not a complex task.
 
 Why not automate it.
 
@@ -33,5 +35,3 @@ Reviewer Workflow:
 1. Reviewer takes their time to review PR 1. PRs are small and easier understandable
 2. Reviewer approves PR 1, PR 1 merges, PR 2 is updated automatically, workflows retriggered
 3. Repeat
-
-
